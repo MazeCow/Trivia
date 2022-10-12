@@ -5,6 +5,7 @@ import requests
 from pprint import *
 from termcolor import colored
 import json
+import html
 
 data_valid = False
 while data_valid == False:
@@ -22,9 +23,9 @@ while data_valid == False:
 for i in range(qAmount):
     request = requests.get("https://opentdb.com/api.php?amount=1")
     question = json.loads(request.text)
-    print(colored("Category: ", "cyan"), "\n".upper(), "".ljust(1), colored((question['results'][0]['category'].upper()), "white"), "\n")
-    print(colored("Difficulty: ", "cyan"), "\n".upper(), "".ljust(1), colored((question['results'][0]['difficulty'].upper()), "white"), "\n")
-    print(colored("Question: ", "cyan"), "\n".upper(), "".ljust(1), colored((question['results'][0]['question'].upper()), "white"))
+    print(colored("Category: ", "cyan"), "\n".upper(), "".ljust(1), colored(html.unescape(question['results'][0]['category']), "cyan"), "\n")
+    print(colored("Difficulty: ", "cyan"), "\n".upper(), "".ljust(1), colored(html.unescape(question['results'][0]['difficulty']), "cyan"), "\n")
+    print(colored("Question: ", "cyan"), "\n".upper(), "".ljust(1), colored(html.unescape(question['results'][0]['question']), "cyan"), "\n")
     answers = []
     answers.append(question['results'][0]['correct_answer'].upper())
     for answer in question['results'][0]['incorrect_answers']:
@@ -62,8 +63,7 @@ for i in range(qAmount):
         print(colored("\n\tCorrect!\n", "green"))
     else:
         print(colored("\n\tIncorrect!\n", "red"))
-        print(answers[x])
-        print(answers[answer])
-        print(colored(f"\tThe correct answer was {answers[x]}!\n", "red"))
-        input("")
+        print(colored(f"\tYou answered: {answers[answer]}", "red"))
+        print(colored(f"\tThe correct answer was: {answers[x]}!\n", "red"))
+        input(colored("\tPress any key to continue . . .", "cyan"))
 
