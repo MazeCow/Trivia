@@ -27,9 +27,9 @@ for i in range(qAmount):
     print(colored("Difficulty: ", "cyan"), "\n".upper(), "".ljust(1), colored(html.unescape(question['results'][0]['difficulty']), "cyan"), "\n")
     print(colored("Question: ", "cyan"), "\n".upper(), "".ljust(1), colored(html.unescape(question['results'][0]['question']), "cyan"), "\n")
     answers = []
-    answers.append(question['results'][0]['correct_answer'].upper())
+    answers.append(html.unescape(question['results'][0]['correct_answer']).upper())
     for answer in question['results'][0]['incorrect_answers']:
-        answers.append(answer.upper())
+        answers.append(html.unescape(answer).upper())
     
 
     shuffle(answers)
@@ -40,7 +40,7 @@ for i in range(qAmount):
         answerNumbers.append(answerNum)
     count = 1
     for answer in answers:
-        print("\t" + colored(f"({count}.)", "cyan") + colored(f" {answer}", "white"))
+        print("\t" + colored(f"({count}.)", "cyan") + colored(f"{answer}", "white"))
         count += 1
 
     data_valid = False
@@ -66,4 +66,6 @@ for i in range(qAmount):
         print(colored(f"\tYou answered: {answers[answer]}", "red"))
         print(colored(f"\tThe correct answer was: {answers[x]}!\n", "red"))
         input(colored("\tPress any key to continue . . .", "cyan"))
+
+print(colored("\nThanks for playing!", "green"))
 
