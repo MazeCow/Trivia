@@ -3,7 +3,7 @@ from operator import is_not
 from random import * 
 import requests
 from pprint import *
-from termcolor import colored
+from termcolor import *
 import json
 import html
 
@@ -24,7 +24,13 @@ for i in range(qAmount):
     request = requests.get("https://opentdb.com/api.php?amount=1")
     question = json.loads(request.text)
     print(colored("Category: ", "cyan"), "\n".upper(), "".ljust(1), colored(html.unescape(question['results'][0]['category']), "cyan"), "\n")
-    print(colored("Difficulty: ", "cyan"), "\n".upper(), "".ljust(1), colored(html.unescape(question['results'][0]['difficulty']), "cyan"), "\n")
+    if (html.unescape(question['results'][0]['difficulty'])) == "easy":
+        difficultyRating = "green"
+    if (html.unescape(question['results'][0]['difficulty'])) == "medium":
+        difficultyRating = "yellow"
+    if (html.unescape(question['results'][0]['difficulty'])) == "hard":
+        difficultyRating = "red"
+    print(colored("Difficulty: ", "cyan"), "\n".upper(), "".ljust(1), colored(html.unescape(question['results'][0]['difficulty']).upper(), difficultyRating), "\n")
     print(colored("Question: ", "cyan"), "\n".upper(), "".ljust(1), colored(html.unescape(question['results'][0]['question']), "cyan"), "\n")
     answers = []
     answers.append(html.unescape(question['results'][0]['correct_answer']).upper())
@@ -61,6 +67,7 @@ for i in range(qAmount):
     answer -= 1
     if answers[x] == answers[answer]:
         print(colored("\n\tCorrect!\n", "green"))
+        input(colored("\tPress any key to continue . . .", "cyan"))
     else:
         print(colored("\n\tIncorrect!\n", "red"))
         print(colored(f"\tYou answered: {answers[answer]}", "red"))
