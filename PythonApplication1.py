@@ -6,6 +6,8 @@ from pprint import *
 from termcolor import *
 import json
 import html
+import os
+os.system('color')
 
 data_valid = False
 while data_valid == False:
